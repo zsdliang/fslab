@@ -77,8 +77,10 @@ int newfs_driver_read(int offset, uint8_t *out_content, int size) {
     while (size_aligned != 0)
     {
         // read(NEWFS_DRIVER(), cur, NEWFS_IO_SZ());
-        ddriver_read(NEWFS_DRIVER(), cur, NEWFS_IO_SZ());
-        cur          += NEWFS_IO_SZ();
+        ddriver_read(NEWFS_DRIVER(), cur, 512);
+        cur          += 512;
+        ddriver_read(NEWFS_DRIVER(), cur, 512);
+        cur          += 512;
         size_aligned -= NEWFS_IO_SZ();   
     }
     memcpy(out_content, temp_content + bias, size);
@@ -108,8 +110,10 @@ int newfs_driver_write(int offset, uint8_t *in_content, int size) {
     while (size_aligned != 0)
     {
         // write(NEWFS_DRIVER(), cur, NEWFS_IO_SZ());
-        ddriver_write(NEWFS_DRIVER(), cur, NEWFS_IO_SZ());
-        cur          += NEWFS_IO_SZ();
+        ddriver_write(NEWFS_DRIVER(), cur, 512);
+        cur          += 512;
+        ddriver_write(NEWFS_DRIVER(), cur, 512);
+        cur          += 512;
         size_aligned -= NEWFS_IO_SZ();   
     }
 
@@ -443,7 +447,8 @@ int newfs_mount(struct custom_options options){
     //向内存超级块中标记驱动并写入磁盘大小和单次IO大小
     newfs_super.driver_fd = fd;
     ddriver_ioctl(NEWFS_DRIVER(), IOC_REQ_DEVICE_SIZE,  &newfs_super.sz_disk);
-    ddriver_ioctl(NEWFS_DRIVER(), IOC_REQ_DEVICE_IO_SZ, &newfs_super.sz_io);
+    // ddriver_ioctl(NEWFS_DRIVER(), IOC_REQ_DEVICE_IO_SZ, &newfs_super.sz_io);
+    newfs_super.sz_io = 1024;
     
     //创建根目录项并读取磁盘超级块到内存
     root_dentry = new_dentry("/", NEWFS_DIR);
@@ -479,22 +484,11 @@ int newfs_mount(struct custom_options options){
         newfs_super_d.map_inode_blks  = map_inode_blks;
         newfs_super_d.map_data_blks = map_data_blks;
         newfs_super_d.sz_usage    = 0;
-        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!%d  %d  %d  %d\n",newfs_super_d.map_inode_offset,newfs_super_d.map_data_offset,newfs_super_d.inode_offset,newfs_super_d.data_offset);
+        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!%d,%d\n",newfs_super_d.map_inode_blks,newfs_super_d.map_data_blks);
         NEWFS_DBG("inode map blocks: %d\n", map_inode_blks);
         NEWFS_DBG("data  map blocks: %d\n", map_data_blks);
         is_init = TRUE;
     }
-    super_blks = NEWFS_ROUND_UP(sizeof(struct newfs_super_d), NEWFS_IO_SZ()) / NEWFS_IO_SZ();
-    inode_num  =  NEWFS_DISK_SZ() / ((NEWFS_DATA_PER_FILE + NEWFS_INODE_PER_FILE) * NEWFS_IO_SZ());
-    map_inode_blks = NEWFS_ROUND_UP(NEWFS_ROUND_UP(inode_num, UINT32_BITS), NEWFS_IO_SZ()) 
-                        / NEWFS_IO_SZ();
-
-    data_blks_num = NEWFS_DISK_SZ() / NEWFS_IO_SZ();
-    map_data_blks = NEWFS_ROUND_UP(NEWFS_ROUND_UP(data_blks_num, UINT32_BITS), NEWFS_IO_SZ()) 
-                        / NEWFS_IO_SZ();
-    printf("#####################################super     blocks: %d\n", super_blks);
-    printf("#####################################inode map blocks: %d\n", map_inode_blks);
-    printf("#####################################data  map blocks: %d\n", map_data_blks);
 
     //初始化内存中的超级块，和根目录项
     newfs_super.sz_usage   = newfs_super_d.sz_usage;      /* 建立 in-memory 结构 */

@@ -20,7 +20,7 @@ struct custom_options {
 #define UINT32_BITS             32
 #define UINT8_BITS              8
 
-#define NEWFS_MAGIC_NUM           0x12345678 
+#define NEWFS_MAGIC_NUM           0x12345679 
 #define NEWFS_SUPER_OFS           0
 #define NEWFS_ROOT_INO            0
 
