@@ -20,7 +20,7 @@ struct custom_options {
 #define UINT32_BITS             32
 #define UINT8_BITS              8
 
-#define NEWFS_MAGIC_NUM           0x12345678  
+#define NEWFS_MAGIC_NUM           0x12345678 
 #define NEWFS_SUPER_OFS           0
 #define NEWFS_ROOT_INO            0
 
@@ -60,9 +60,8 @@ struct custom_options {
 #define NEWFS_BLKS_SZ(blks)               (blks * NEWFS_IO_SZ())
 #define NEWFS_ASSIGN_FNAME(psfs_dentry, _fname)\ 
                                         memcpy(psfs_dentry->fname, _fname, strlen(_fname))
-#define NEWFS_INO_OFS(ino)                (newfs_super.data_offset + ino * NEWFS_BLKS_SZ((\
-                                        NEWFS_INODE_PER_FILE + NEWFS_DATA_PER_FILE)))
-#define NEWFS_DATA_OFS(ino)               (NEWFS_INO_OFS(ino) + NEWFS_BLKS_SZ(NEWFS_INODE_PER_FILE))
+#define NEWFS_INO_OFS(ino)                newfs_super.inode_offset + NEWFS_BLKS_SZ(ino)
+#define NEWFS_DATA_OFS(ino)               newfs_super.data_offset + ino*NEWFS_BLKS_SZ(NEWFS_DATA_PER_FILE)
 
 #define NEWFS_IS_DIR(pinode)              (pinode->dentry->ftype == NEWFS_DIR)
 #define NEWFS_IS_REG(pinode)              (pinode->dentry->ftype == NEWFS_REG_FILE)
@@ -85,10 +84,16 @@ struct newfs_super {
     
     int                max_ino;
     uint8_t*           map_inode;
+    uint8_t*           map_data;
+    
     int                map_inode_blks;
     int                map_inode_offset;
+
     int                map_data_blks;
     int                map_data_offset;
+
+    int                inode_blks;
+    int                inode_offset;
     
     int                data_offset;
 
@@ -144,6 +149,10 @@ struct newfs_super_d
 
     int                map_data_blks;
     int                map_data_offset;
+
+    int                inode_blks;
+    int                inode_offset;
+
     int                data_offset;
 };
 
