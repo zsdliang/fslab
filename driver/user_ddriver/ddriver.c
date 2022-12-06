@@ -45,7 +45,7 @@ extern int errno;
 #define DRIVER_VERSION  "0.1.0"
 
 #define CONFIG_DISK_SZ  (4 * 1024 * 1024)
-#define CONFIG_BLOCK_SZ (512)
+#define CONFIG_BLOCK_SZ (1024)
 /******************************************************************************
 * SECTION: Macro Functions 
 *******************************************************************************/

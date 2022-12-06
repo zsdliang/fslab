@@ -4,5 +4,6 @@
         "*.wxss": "css",
         "*.wxs": "javascript",
         "ioctl.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/fs/template"
 }

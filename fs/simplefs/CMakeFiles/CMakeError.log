@@ -1,0 +1,55 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+cc: fatal error: cannot execute ‘/usr/lib/gcc/x86_64-linux-gnu/11/cc1’: vfork: Resource temporarily unavailable
+compilation terminated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+1
+cc: fatal error: cannot execute ‘/usr/lib/gcc/x86_64-linux-gnu/11/cc1’: vfork: Resource temporarily unavailable
+compilation terminated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+cc: fatal error: cannot execute ‘/usr/lib/gcc/x86_64-linux-gnu/11/cc1’: vfork: Resource temporarily unavailable
+compilation terminated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: -c 
+
+The output was:
+1
+cc: fatal error: cannot execute ‘/usr/lib/gcc/x86_64-linux-gnu/11/cc1’: vfork: Resource temporarily unavailable
+compilation terminated.
+
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: -Aa 
+
+The output was:
+1
+cc: fatal error: cannot execute ‘/usr/lib/gcc/x86_64-linux-gnu/11/cc1’: vfork: Resource temporarily unavailable
+compilation terminated.
+
+

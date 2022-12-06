@@ -517,18 +517,14 @@ int main(int argc, char **argv)
 {
     int ret;
 	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-
-	sfs_options.device = strdup("/dev/ddriver");
-
+	sfs_options.device = strdup("~/ddriver");
 	if (fuse_opt_parse(&args, &sfs_options, option_spec, NULL) == -1)
 		return -SFS_ERROR_INVAL;
-	
 	if (sfs_options.show_help) {
 		sfs_usage();
 		fuse_opt_add_arg(&args, "--help");
 		args.argv[0][0] = '\0';
 	}
-	
 	ret = fuse_main(args.argc, args.argv, &operations, NULL);
 	fuse_opt_free_args(&args);
 	return ret;
